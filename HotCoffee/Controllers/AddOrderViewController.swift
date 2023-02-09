@@ -8,10 +8,19 @@
 import Foundation
 import UIKit
 
+protocol AddOrderDelegate {
+    func addOrderViewControllerDidSave(order: Order, controller: UIViewController)
+    func addOrderViewControllerDidClose(controller: UIViewController)
+}
+
 class AddOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    private var vm = AddCoffeeOrderViewModel()
+    private var vm = AddOrderViewModel()
+    
+    var delegate: AddOrderDelegate?
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var emailTextField: UITextField!
     
     private var orderSizesSegmentedControl: UISegmentedControl!
     
@@ -69,5 +78,43 @@ class AddOrderViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         // ini run ketika deselect suatu row
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+    }
+    
+    @IBAction func save() {
+        // ini ngambil value dari text field
+        let name = self.nameTextField.text
+        let email = self.emailTextField.text
+        
+        // ini ngambil value dari segmented control yang selected
+        let selectedSize = self.orderSizesSegmentedControl.titleForSegment(at: self.orderSizesSegmentedControl.selectedSegmentIndex)
+        
+        guard let indexPath = self.tableView.indexPathForSelectedRow else {
+            fatalError("Error in selecting coffee")
+        }
+        
+        // set value tadi di vm
+        self.vm.name = name
+        self.vm.email = email
+        self.vm.selectedSize = selectedSize
+        self.vm.selectedType = self.vm.types[indexPath.row]
+        
+        WebService().load(resource: Order.create(vm: self.vm)) { result in
+            switch result {
+            case .success(let order):
+                if let order = order, let delegate = self.delegate {
+                    DispatchQueue.main.async {
+                        delegate.addOrderViewControllerDidSave(order: order, controller: self)
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    @IBAction func close() {
+        if let delegate = self.delegate {
+            delegate.addOrderViewControllerDidClose(controller: self)
+        }
     }
 }

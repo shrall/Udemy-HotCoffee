@@ -8,22 +8,27 @@
 import Foundation
 import UIKit
 
-class OrdersTableViewController: UITableViewController {
+class OrdersTableViewController: UITableViewController, AddOrderDelegate {
     var orderListVM = OrderListViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        populateOrders()
+        self.populateOrders()
+    }
+    
+    func addOrderViewControllerDidSave(order: Order, controller: UIViewController) {
+        let orderVM = OrderViewModel(order: order)
+        self.orderListVM.ordersVM.append(orderVM)
+        self.tableView.insertRows(at: [IndexPath.init(row: self.orderListVM.ordersVM.count - 1, section: 0)], with: .automatic)
+        controller.dismiss(animated: true)
+    }
+    
+    func addOrderViewControllerDidClose(controller: UIViewController) {
+        controller.dismiss(animated: true)
     }
 
     private func populateOrders() {
-        guard let coffeeOrdersURL = URL(string: "https://warp-wiry-rugby.glitch.me/orders") else {
-            fatalError("URL was incorrect")
-        }
-
-        let resource = Resource<[Order]>(url: coffeeOrdersURL)
-
-        WebService().load(resource: resource) { [weak self] result in
+        WebService().load(resource: Order.all) { [weak self] result in
             switch result {
             case .success(let orders):
                 self?.orderListVM.ordersVM = orders.map(OrderViewModel.init)
@@ -32,6 +37,16 @@ class OrdersTableViewController: UITableViewController {
                 print(error)
             }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navC = segue.destination as? UINavigationController,
+              let addOrderVC = navC.viewControllers.first as? AddOrderViewController
+        else {
+            fatalError("Error performing segue")
+        }
+        
+        addOrderVC.delegate = self
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
