@@ -9,20 +9,41 @@ import Foundation
 import UIKit
 
 class AddOrderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     private var vm = AddCoffeeOrderViewModel()
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
+    
+    private var orderSizesSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //wajib buat nampilin datanya
+        self.setupUI()
+        
+        // wajib buat nampilin datanya
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
     
-    //ini itu "subbab"nya buat tiap row nyebutnya section
+    private func setupUI() {
+        // ini nge set ada apa aja choicesnya
+        self.orderSizesSegmentedControl = UISegmentedControl(items: self.vm
+            .sizes)
+        
+        // ini itu biar bisa di set manual constraint/location/etcnya
+        self.orderSizesSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        // ini masukin segmented controlnya ke view
+        self.view.addSubview(self.orderSizesSegmentedControl)
+        
+        // ini set topanchor dari segmentedcontrolnya ke bottom anchornya tableview
+        self.orderSizesSegmentedControl.topAnchor.constraint(equalTo: self.tableView.bottomAnchor, constant: 20).isActive = true
+        
+        // ini ngeset horizontally aligned sama screen viewnya
+        self.orderSizesSegmentedControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    }
+    
+    // ini itu "subbab"nya buat tiap row nyebutnya section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(self.vm.types.count)
         return self.vm.types.count

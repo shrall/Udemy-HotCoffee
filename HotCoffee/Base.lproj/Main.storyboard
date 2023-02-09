@@ -81,14 +81,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="g18-dK-iEe">
-                                <rect key="frame" x="93.666666666666686" y="471" width="206" height="32"/>
-                                <segments>
-                                    <segment title="Small"/>
-                                    <segment title="Medium"/>
-                                    <segment title="Large"/>
-                                </segments>
-                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NmZ-2U-pP9">
                                 <rect key="frame" x="96.666666666666686" y="586" width="200" height="34"/>
                                 <constraints>
@@ -111,13 +103,11 @@
                         <constraints>
                             <constraint firstItem="UjM-Y5-pBt" firstAttribute="height" secondItem="xvK-fw-nLw" secondAttribute="height" multiplier="0.5" id="5A7-HO-Ju3"/>
                             <constraint firstItem="UjM-Y5-pBt" firstAttribute="width" secondItem="xvK-fw-nLw" secondAttribute="width" id="EDi-Dd-YjN"/>
-                            <constraint firstItem="g18-dK-iEe" firstAttribute="centerX" secondItem="xvK-fw-nLw" secondAttribute="centerX" id="MuG-rs-ldi"/>
                             <constraint firstItem="8ie-pd-4QH" firstAttribute="centerX" secondItem="xvK-fw-nLw" secondAttribute="centerX" id="MuU-pl-0oC"/>
                             <constraint firstItem="NmZ-2U-pP9" firstAttribute="top" secondItem="8ie-pd-4QH" secondAttribute="bottom" constant="22" id="VDM-6u-UIj"/>
+                            <constraint firstItem="8ie-pd-4QH" firstAttribute="top" secondItem="UjM-Y5-pBt" secondAttribute="bottom" constant="82.333333333333314" id="Y3Q-uY-2tT"/>
                             <constraint firstItem="NmZ-2U-pP9" firstAttribute="centerX" secondItem="xvK-fw-nLw" secondAttribute="centerX" id="gGY-tI-SNY"/>
                             <constraint firstItem="UjM-Y5-pBt" firstAttribute="top" secondItem="amO-bj-8Wd" secondAttribute="top" id="mLe-mg-X5l"/>
-                            <constraint firstItem="8ie-pd-4QH" firstAttribute="top" secondItem="g18-dK-iEe" secondAttribute="bottom" constant="28" id="pAH-Aa-n1l"/>
-                            <constraint firstItem="g18-dK-iEe" firstAttribute="top" secondItem="UjM-Y5-pBt" secondAttribute="bottom" constant="23.333333333333314" id="q7f-NM-a0v"/>
                             <constraint firstItem="UjM-Y5-pBt" firstAttribute="leading" secondItem="amO-bj-8Wd" secondAttribute="leading" id="y1F-ff-Fh2"/>
                         </constraints>
                     </view>
