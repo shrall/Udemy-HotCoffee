@@ -60,4 +60,14 @@ class AddOrderViewController: UIViewController, UITableViewDelegate, UITableView
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // ini run ketika select suatu row
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        // ini run ketika deselect suatu row
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+    }
 }
